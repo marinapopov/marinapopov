@@ -1,0 +1,56 @@
+#include <iostream>
+
+using namespace std;
+
+int main()
+{
+    int min, max, n, pretul, decalaj, suma = 0, nr1 = 0, nr2 = 0 , nr3 = 0;
+    int countlow=0;
+    float media;
+    min = 150000;
+    max = 0;
+
+    cout<<"Introduceti nr. de medicamente"<<endl;
+    cin>>n;
+        for( int i = 1; i<=n; i++) {
+            cout<<"Introduceti pretul "<<i<< " = ";
+            cin>>pretul;
+
+            //Valoarea minima si maxima
+            if (pretul < min)
+                min = pretul;
+            if (pretul > max)
+                max = pretul;
+
+            //Determinarea decalajului
+                decalaj=max-min;
+
+            //Calculam suma
+                suma+=pretul;
+
+            //valori mai mici, mai mari sau egale
+            if (pretul < 420) nr1++;
+                else
+                    if (pretul > 420) nr2++;
+            else nr3++;
+
+            //Nr.de medicamente ieftine
+            if (pretul < 50) {
+                    countlow++;
+            }
+
+        }
+cout << "Pretul minim este = " << min << endl;
+cout << "Pretul maxim este = " << max << endl;
+cout << "Media preturilor este = " << (float)suma/n << endl;
+cout << "Preturi mai mici ca 420 sunt " << nr1 << endl;
+cout << "Preturi mai mari ca 420 sunt " << nr2 << endl;
+cout << "Preturi egale cu 420 sunt " << nr3 << endl;
+cout << "Nr. de medicamente ieftine este "<< countlow << endl;
+
+
+
+
+
+    return 0;
+}
