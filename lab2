@@ -1,0 +1,123 @@
+#include <iostream>
+#include <conio.h>
+#include <cstdlib>
+
+
+using namespace std;
+
+int checkAbundancy(int n);
+
+int main()
+{
+    int key, n, sum;
+    int abundantNumbersCount = 0;
+    do {
+    cout << "1. Check daca nr. satisface conditia" << endl;
+    cout << "2. De afisat toate nr. din intervalul [a,b], care satisfac conditia" << endl;
+    cout << "3. De afisat primele n numere, care satisfac conditia" << endl;
+    cout << "4. De afisat toate nr. din intervalul [a,b], care satisfac a doua proprietate" << endl;
+    cout << "5. De afisat cel mai mare numar, care satisface conditia" << endl;
+    cout << "0. Exit" << endl;
+    cout << "\t\tSelecteaza o optiune ==> " << endl;
+    cin >> key;
+    switch (key) {
+        case 1:
+            cout <<"Introduceti nr. ce trebuie verificat = ";
+            cin >> n;
+            if (checkAbundancy(n)) {
+                cout <<"Numarul "<< n <<" este numar abundent" << endl;
+            }
+            else {
+                cout << "Numarul "<< n <<" nu este numar abundent" << endl;
+            }
+        getch();
+        break;
+        case 2:
+            int startInterval;
+            int endInterval;
+
+            cout <<"Introduceti limita de stanga a intervalului ";
+            cin >> startInterval;
+            cout <<"Introduceti limita de dreapta a intervalului ";
+            cin >> endInterval;
+            cout << "In intervalul dat sunt urmatoarele numere " << endl;
+
+            for (int x = startInterval; x < endInterval; x++) {
+                if (checkAbundancy(x)) {
+                    cout << x << " ";
+                    abundantNumbersCount++;
+                }
+            }
+
+            cout << "\n";
+
+            if(abundantNumbersCount == 0) cout << "In intervalul dat nu sunt numere abundente";
+                            else
+                        cout << "In intervalul [" << startInterval << " , " << endInterval << "] sunt " << abundantNumbersCount << " numere abundente" << endl;
+        getch();
+        break;
+        case 3:
+            int n;
+            abundantNumbersCount = 0;
+
+            cout << "Introduceti nr. de elemente care trebuie sa fie afisate: ";
+            cin >> n;
+            cout << "Primele " << n << " elemente sunt: " << endl;
+
+            for(int i = 0; abundantNumbersCount < n; i++) {
+                if (checkAbundancy(i)) {
+                    cout << i << " ";
+                    abundantNumbersCount++;
+                }
+            }
+        break;
+        case 4:
+
+            cout <<"Introduceti limita de stanga a intervalului ";
+            cin >> startInterval;
+            cout <<"Introduceti limita de dreapta a intervalului ";
+            cin >> endInterval;
+
+        for (int x = startInterval; x < endInterval; x++) {
+                if (!checkAbundancy(x)) {
+                    cout << x << " ";
+                    abundantNumbersCount++;
+                }
+            }
+            cout << "\n";
+            if(abundantNumbersCount == 0) cout << "In intervalul dat nu sunt numere deficiente";
+                            else
+                        cout << "In intervalul [" << startInterval << " , " << endInterval << "] sunt " << abundantNumbersCount << " numere deficiente" << endl;
+        break;
+        case 5:
+            int aux = 9999;
+            abundantNumbersCount = 0;
+
+            while (abundantNumbersCount == 0) {
+                if(checkAbundancy(aux)) {
+                    cout << aux;
+                    abundantNumbersCount++;
+                }
+                aux--;
+            }
+
+
+        break;
+
+        }
+    cout << endl << endl<< endl<< endl<< endl<< endl<< endl;
+    } while(key !=0);
+
+    return 0;
+}
+
+
+int checkAbundancy(int n) {
+    int sum = 0;
+    for (int i = 1; i <= n / 2; i++) {
+        if (n % i == 0) {
+            sum += i;
+        }
+    }
+    return sum > n;
+}
