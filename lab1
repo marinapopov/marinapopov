@@ -48,9 +48,5 @@ cout << "Preturi mai mari ca 420 sunt " << nr2 << endl;
 cout << "Preturi egale cu 420 sunt " << nr3 << endl;
 cout << "Nr. de medicamente ieftine este "<< countlow << endl;
 
-
-
-
-
     return 0;
 }
