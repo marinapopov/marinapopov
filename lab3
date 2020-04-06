@@ -1,0 +1,190 @@
+#include <iostream>
+#include <conio.h>
+#include <cstdlib>
+#define maxArrayLength 100
+
+using namespace std;
+
+void createTable(int array[], int medCount);
+void showTable(int array[], int medCount);
+int minPrice(int array[], int medCount);
+int maxPrice(int array[], int medCount);
+int average(int array[], int medCount);
+int bubbleSort(int array[], int medCount);
+int turnLeft(int array[], int medCount);
+int insertElem(int array[], int medCount, int k);
+int deleteEl(int array[], int &medCount);
+int nrOfCheapMeds(int array[], int medCount, int lowPrice);
+
+
+int main()
+{
+    int key;
+    int array[maxArrayLength], medCount;
+    int nrOfRotations = 9;
+    int value;
+    int lowPrice;
+
+    cout << "Introduceti dimensiunea vectorului = ";
+    cin >> medCount;
+    createTable(array, medCount);
+    showTable(array, medCount);
+
+    cout << "1. De determinat într-un tabel de numere valorile minimă şi maximă" << endl;
+    cout << "2. De determinat într-un tabel de numere media aritmetică" << endl;
+    cout << "3. De aranjat un tabel de numere în ordine crescătoare sau descrescătoare, utilizând una dintre metodele de sortare" << endl;
+    cout << "4. De efectuat rotirea la stânga (variantele impare) sau la dreapta (variantele pare) a elementelor tabelului de k ori (k – numărul variantei)" << endl;
+    cout << "5. De adăugat date în tabelul de numerele" << endl;
+    cout << "6. De șters date din tabelul de numerele" << endl;
+    cout << "7. De calculat o caracteristică, referitoare la datele concrete (se precizează individual)" << endl;
+    cout << "0. Exit" << endl;
+
+    do {
+    cout << "\n Selecteaza o optiune ==> " << endl;
+    cin >> key;
+    switch (key) {
+        case 1:
+            cout << "Tabelul : ";
+            showTable(array, medCount);
+            cout << "Valoarea minima este = " << minPrice(array, medCount) << endl;
+            cout << "Valoarea maxima este = " << maxPrice(array, medCount) << endl;
+            createTable(array, medCount);
+            showTable(array, medCount);
+        break;
+        case 2:
+            cout << "Tabelul : ";
+            showTable(array, medCount);
+            cout << "Media elementelor este = " << average(array, medCount);
+        break;
+        case 3:
+            cout << "Tabelul initial: ";
+            showTable(array, medCount);
+            cout << "Tabelul sortat descrescator: ";
+            bubbleSort(array, medCount);
+        break;
+        case 4:
+            for (int i = 0; i < nrOfRotations; i++) {
+               turnLeft(array, medCount);
+            }
+        break;
+        case 5:
+            cout << "Introduceti valoarea care trebuie sa fie adaugata: ";
+            cin >> value;
+            insertElem(array, medCount, value);
+            showTable(array, medCount);
+        break;
+        case 6:
+            deleteEl(array, medCount);
+            showTable(array, medCount);
+        break;
+        case 7:
+            cout << "Introduceti pretul care va fi considerat ieftin: ";
+            cin >> lowPrice;
+            cout << nrOfCheapMeds(array, medCount, lowPrice);
+        break;
+        }
+    } while (key != 0);
+    return 0;
+}
+
+void createTable(int array[], int medCount) {
+    for (int i = 0; i < medCount; i++){
+        array[i] = rand() % 101 + 1;
+    }
+}
+
+void showTable(int array[],int medCount) {
+    for (int i = 0; i < medCount; i++){
+        cout << array[i] << " ";
+    }
+    cout << "\n";
+}
+
+int minPrice (int array[], int medCount) {
+    int min = array[0];
+    for (int i = 1; i < medCount; i++) {
+        if (array[i] < min) {
+            min = array[i];
+        }
+    }
+    return min;
+}
+
+int maxPrice (int array[], int medCount) {
+    int max = array[0];
+    for (int i = 1; i < medCount; i++) {
+        if (array[i] > max) {
+            max = array[i];
+        }
+    }
+    return max;
+}
+
+int average (int array[], int medCount) {
+    int sum = 0;
+
+    for (int i = 0; i < medCount; i++) {
+        sum += array[i];
+    }
+    return sum / medCount;
+}
+
+int bubbleSort(int array[], int medCount) {
+    int j=0, m, aux;
+    do{
+        m = 0; j++;
+
+        for(int i = 0; i < medCount-j; i++) {
+            if(array[i] < array[i+1]) {
+                aux = array[i];
+                array[i] = array[i+1];
+                array[i+1] = aux;
+                m = 1;
+            }
+        }
+    } while(m);
+    showTable(array, medCount);
+    return 1;
+}
+
+int turnLeft(int array[], int medCount) {
+    int aux;
+
+    if (medCount == 0) return 0;
+    aux = array [0];
+    for(int i = 0; i < medCount-1; i++)
+        array[i] = array [i+1];
+    array[medCount-1] = aux;
+    showTable(array, medCount);
+    return 1;
+}
+
+int insertElem(int array[], int medCount, int k) {
+
+    if (medCount == 0) return 0;
+        medCount++;
+    for(int i = medCount-1; i>0; i--)
+        array[i] = array [i-1];
+    array[0] = k;
+    return 1;
+}
+
+int deleteEl(int array[], int &medCount) {
+
+    if (medCount == 0) return 0;
+    medCount--;
+    for (int i = 0; i < medCount; i++)
+        array[i] = array[i+1];
+    return 1;
+}
+
+int nrOfCheapMeds(int array[], int medCount, int lowPrice) {
+    int nrOfLowPriceMeds = 0;
+
+    for (int i=0; i < medCount; i++) {
+        if (array[i] < lowPrice) {
+            nrOfLowPriceMeds++;
+        }
+    }
+    return nrOfLowPriceMeds;
+}
