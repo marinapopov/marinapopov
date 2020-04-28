@@ -1,0 +1,208 @@
+#include <iostream>
+#include <conio.h>
+#include <cstdlib>
+#include <algorithm>
+#include <stdio.h>
+#include <stdlib.h>
+#include <iomanip>
+
+#define NMAX 100
+
+using namespace std;
+
+void createMatrix(int matrix[NMAX][NMAX], int row, int col);
+void randMatrix(int matrix[NMAX][NMAX], int row, int col);
+void matrixOutput(int matrix[NMAX][NMAX], int row, int col);
+void searchMin(int matrix[NMAX][NMAX], int row, int col);
+void searchMax(int matrix[NMAX][NMAX], int row, int col);
+void interChange_lines(int matrix[NMAX][NMAX], int row, int col, int n1, int n2);
+void addCol(int matrix[NMAX][NMAX], int row, int &col, int val);
+void sortMatrix(int matrix[NMAX][NMAX], int row, int col);
+void generare(int matrix[NMAX][NMAX], int row, int col);
+
+
+int main() {
+  int row, col, matrix[NMAX][NMAX];
+  char key, key1;
+  int n1, n2;
+  int val;
+
+  cout << "Prelucrarea datelor in matrice" << endl;
+  cout << "1. De determinat intr-o matrice valorile minima si maxima si pozitiile lor" << endl;
+  cout << "2. De interschimbat 2 linii." << endl;
+  cout << "3. De adaugat o coloana, de completat cu caracteristica conform variantei" << endl;
+  cout << "4. De aranjat o matrice după coloana adaugata." << endl;
+  cout << "5. De generat o matrice conform variantei." << endl;
+  cout << "\t|1 2 3|\n";
+  cout << "\t|4 5 6|\n";
+  cout << "\t|7 8 9|\n";
+  cout << "0. Exit" << endl;
+
+  cout << "Introduceti nr. de linii: ";
+  cin >> row;
+  cout << "Introduceti nr. de coloane: ";
+  cin >> col;
+  randMatrix(matrix, row, col);
+  matrixOutput(matrix, row, col);
+
+  do {
+    cout << "Introduceti optiunea: ";
+    cin >> key;
+
+    switch (key) {
+      case '1':
+          searchMin(matrix, row, col);
+          searchMax(matrix, row, col);
+        break;
+      case '2':
+          cout << "Introduceti n1: ";
+          cin >> n1;
+          cout << "Introduceti n2: ";
+          cin >> n2;
+          interChange_lines(matrix, row, col, n1, n2);
+        break;
+      case '3':
+          cout << "Introduceti valoarea de comparare: ";
+          cin >> val;
+          addCol(matrix, row, col, val);
+        break;
+      case '4':
+          sortMatrix(matrix, row, col);
+        break;
+      case '5':
+            generare(matrix, row, col);
+        break;
+    }
+  } while (key != '0');
+}
+
+void createMatrix(int matrix[NMAX][NMAX], int row, int col) {
+  int i, j;
+
+  cout << "Introduce the matrix: " << endl;
+  for (i = 0; i < row; i++) {
+    for (j = 0; j < col; j++) {
+      cout << " [ " << i + 1 << ";" << j + 1 << " ] = ";
+      cin >> matrix[i][j];
+    }
+    cout << endl;
+  }
+}
+
+void randMatrix(int matrix[NMAX][NMAX], int row, int col) {
+  int i, j;
+
+  for (i = 0; i < row; i++) {
+    for (j = 0; j < col; j++) {
+      matrix[i][j] = rand() % 10 + 1;
+    }
+  }
+}
+
+void matrixOutput(int matrix[NMAX][NMAX], int row, int col) {
+
+  for (int i = 0; i < row; i++) {
+    for (int j = 0; j < col; j++) {
+      cout << setw(4) << matrix[i][j];
+    }
+    cout << endl;
+  }
+  cout << endl;
+}
+
+void searchMin(int matrix[NMAX][NMAX], int row, int col) {
+  int min;
+  int imin;
+  int jmin;
+  min = matrix[0][0];
+
+  for (int i = 0; i < row; i++) {
+    for (int j = 0; j < col; j++) {
+      if (matrix[i][j] < min) {
+        min = matrix[i][j];
+        imin = i;
+        jmin = j;
+      }
+    }
+  }
+  cout << "Elementul minim = " << min << " pe pozitia: [ " << imin + 1 << ";" << jmin + 1 << " ]" << endl;
+}
+
+void searchMax(int matrix[NMAX][NMAX], int row, int col) {
+  int max;
+  int imax;
+  int jmax;
+  max = matrix[0][0];
+
+  for (int i = 0; i < row; i++) {
+    for (int j = 0; j < col; j++) {
+      if (matrix[i][j] > max) {
+        max = matrix[i][j];
+        imax = i;
+        jmax = j;
+      }
+    }
+  }
+  cout << "Elementul maxim = " << max << " pe pozitia: [ " << imax + 1 << ";" << jmax + 1 << " ]" << endl;
+}
+
+void interChange_lines(int matrix[NMAX][NMAX], int row, int col, int n1, int n2) {
+  int temp;
+
+  for (int j = 0; j < col; j++) {
+    temp = matrix[n1 - 1][j];
+    matrix[n1 - 1][j] = matrix[n2 - 1][j];
+    matrix[n2 - 1][j] = temp;
+  }
+  matrixOutput(matrix, row, col);
+}
+
+void addCol(int matrix[NMAX][NMAX], int row, int &col, int val) {
+  int nr = 0;
+
+  for (int i = 0; i < row; i++) {
+    nr = 0;
+    for (int j = 0; j < col; j++) {
+      if (matrix[i][j] < val) {
+        nr++;
+      }
+      matrix[i][col] = nr;
+    }
+  }
+  col++;
+  matrixOutput(matrix, row, col);
+}
+
+void sortMatrix(int matrix[NMAX][NMAX], int row, int col) {
+    for (int i = 0; i < row - 1; i++) {
+        if (matrix[i][col] > matrix[i+1][col]) {
+            interChange_lines(matrix, row, col, i, i+1);
+        }
+    }
+    matrixOutput(matrix, row, col);
+}
+
+void generare(int matrix[NMAX][NMAX], int row, int col) {
+  int i, j;
+  bool dir = true;
+  int n = 1;
+
+  for (i = 0; i < row; i++) {
+    if (dir) {
+      for (j = 0; j < col; j++) {
+        matrix[i][j] = n;
+        n++;
+      }
+      dir = false;
+    } else {
+      n = n - 1;
+      for (j = col; j >= 0; j--) {
+        matrix[i][j] = n;
+        n++;
+      }
+      dir = true;
+    }
+
+  }
+  matrixOutput(matrix, row, col);
+}
