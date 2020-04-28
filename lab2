@@ -7,10 +7,10 @@ using namespace std;
 
 int checkAbundancy(int n);
 
-int main()
-{
+int main() {
     int key, n, sum;
     int abundantNumbersCount = 0;
+
     do {
     cout << "1. Check daca nr. satisface conditia" << endl;
     cout << "2. De afisat toate nr. din intervalul [a,b], care satisfac conditia" << endl;
@@ -20,6 +20,7 @@ int main()
     cout << "0. Exit" << endl;
     cout << "\t\tSelecteaza o optiune ==> " << endl;
     cin >> key;
+
     switch (key) {
         case 1:
             cout <<"Introduceti nr. ce trebuie verificat = ";
@@ -48,12 +49,11 @@ int main()
                     abundantNumbersCount++;
                 }
             }
-
             cout << "\n";
 
             if(abundantNumbersCount == 0) cout << "In intervalul dat nu sunt numere abundente";
-                            else
-                        cout << "In intervalul [" << startInterval << " , " << endInterval << "] sunt " << abundantNumbersCount << " numere abundente" << endl;
+                else
+                    cout << "In intervalul [" << startInterval << " , " << endInterval << "] sunt " << abundantNumbersCount << " numere abundente" << endl;
         getch();
         break;
         case 3:
@@ -72,13 +72,12 @@ int main()
             }
         break;
         case 4:
-
             cout <<"Introduceti limita de stanga a intervalului ";
             cin >> startInterval;
             cout <<"Introduceti limita de dreapta a intervalului ";
             cin >> endInterval;
 
-        for (int x = startInterval; x < endInterval; x++) {
+            for (int x = startInterval; x < endInterval; x++) {
                 if (!checkAbundancy(x)) {
                     cout << x << " ";
                     abundantNumbersCount++;
@@ -86,8 +85,8 @@ int main()
             }
             cout << "\n";
             if(abundantNumbersCount == 0) cout << "In intervalul dat nu sunt numere deficiente";
-                            else
-                        cout << "In intervalul [" << startInterval << " , " << endInterval << "] sunt " << abundantNumbersCount << " numere deficiente" << endl;
+                else
+                    cout << "In intervalul [" << startInterval << " , " << endInterval << "] sunt " << abundantNumbersCount << " numere deficiente" << endl;
         break;
         case 5:
             int aux = 9999;
@@ -100,20 +99,16 @@ int main()
                 }
                 aux--;
             }
-
-
         break;
-
         }
     cout << endl << endl<< endl<< endl<< endl<< endl<< endl;
     } while(key !=0);
-
     return 0;
 }
 
-
 int checkAbundancy(int n) {
     int sum = 0;
+
     for (int i = 1; i <= n / 2; i++) {
         if (n % i == 0) {
             sum += i;
