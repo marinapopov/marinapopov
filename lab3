@@ -17,8 +17,7 @@ int deleteEl(int array[], int &medCount);
 int nrOfCheapMeds(int array[], int medCount, int lowPrice);
 
 
-int main()
-{
+int main() {
     int key;
     int array[maxArrayLength], medCount;
     int nrOfRotations = 9;
@@ -28,33 +27,32 @@ int main()
     cout << "Introduceti dimensiunea vectorului = ";
     cin >> medCount;
     createTable(array, medCount);
-    showTable(array, medCount);
 
-    cout << "1. De determinat într-un tabel de numere valorile minimă şi maximă" << endl;
-    cout << "2. De determinat într-un tabel de numere media aritmetică" << endl;
-    cout << "3. De aranjat un tabel de numere în ordine crescătoare sau descrescătoare, utilizând una dintre metodele de sortare" << endl;
-    cout << "4. De efectuat rotirea la stânga (variantele impare) sau la dreapta (variantele pare) a elementelor tabelului de k ori (k – numărul variantei)" << endl;
-    cout << "5. De adăugat date în tabelul de numerele" << endl;
-    cout << "6. De șters date din tabelul de numerele" << endl;
-    cout << "7. De calculat o caracteristică, referitoare la datele concrete (se precizează individual)" << endl;
+    cout << "1. De determinat intr-un tabel de numere valorile minima si maxima" << endl;
+    cout << "2. De determinat intr-un tabel de numere media aritmetica" << endl;
+    cout << "3. De aranjat un tabel de numere in ordine crescatoare sau descrescatoare, utilizand una dintre metodele de sortare" << endl;
+    cout << "4. De efectuat rotirea la stanga a elementelor tabelului de k ori (k - numarul variantei)" << endl;
+    cout << "5. De adaugat date in tabelul de numere" << endl;
+    cout << "6. De sters date din tabelul de numere" << endl;
+    cout << "7. De calculat o caracteristica, referitoare la datele concrete" << endl;
     cout << "0. Exit" << endl;
 
     do {
-    cout << "\n Selecteaza o optiune ==> " << endl;
+    cout << "\nSelecteaza o optiune => ";
     cin >> key;
     switch (key) {
         case 1:
-            cout << "Tabelul : ";
+            cout << "Tabelul: ";
             showTable(array, medCount);
             cout << "Valoarea minima este = " << minPrice(array, medCount) << endl;
             cout << "Valoarea maxima este = " << maxPrice(array, medCount) << endl;
             createTable(array, medCount);
-            showTable(array, medCount);
+            /*showTable(array, medCount);*/
         break;
         case 2:
-            cout << "Tabelul : ";
+            cout << "Tabelul: ";
             showTable(array, medCount);
-            cout << "Media elementelor este = " << average(array, medCount);
+            cout << "Media elementelor este = "<< average(array, medCount) << "\n";
         break;
         case 3:
             cout << "Tabelul initial: ";
@@ -63,6 +61,8 @@ int main()
             bubbleSort(array, medCount);
         break;
         case 4:
+            cout << "Introduceti nr. de rotatii: ";
+            cin >> nrOfRotations;
             for (int i = 0; i < nrOfRotations; i++) {
                turnLeft(array, medCount);
             }
@@ -80,7 +80,8 @@ int main()
         case 7:
             cout << "Introduceti pretul care va fi considerat ieftin: ";
             cin >> lowPrice;
-            cout << nrOfCheapMeds(array, medCount, lowPrice);
+            showTable(array, medCount);
+            cout << "Numarul de medicamente ieftine este => " << nrOfCheapMeds(array, medCount, lowPrice);
         break;
         }
     } while (key != 0);
@@ -154,7 +155,7 @@ int turnLeft(int array[], int medCount) {
     aux = array [0];
     for(int i = 0; i < medCount-1; i++)
         array[i] = array [i+1];
-    array[medCount-1] = aux;
+        array[medCount-1] = aux;
     showTable(array, medCount);
     return 1;
 }
