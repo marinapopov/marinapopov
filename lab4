@@ -17,8 +17,8 @@ void searchMin(int matrix[NMAX][NMAX], int row, int col);
 void searchMax(int matrix[NMAX][NMAX], int row, int col);
 void interChange_lines(int matrix[NMAX][NMAX], int row, int col, int n1, int n2);
 void addCol(int matrix[NMAX][NMAX], int row, int &col, int val);
-void sortMatrix(int matrix[NMAX][NMAX], int row, int col);
-void generare(int matrix[NMAX][NMAX], int row, int col);
+void sortMatrix(int matrix[NMAX][NMAX], int &row, int &col);
+void generateMatrix(int matrix[NMAX][NMAX], int row, int col);
 
 
 int main() {
@@ -31,7 +31,7 @@ int main() {
   cout << "1. De determinat intr-o matrice valorile minima si maxima si pozitiile lor" << endl;
   cout << "2. De interschimbat 2 linii." << endl;
   cout << "3. De adaugat o coloana, de completat cu caracteristica conform variantei" << endl;
-  cout << "4. De aranjat o matrice după coloana adaugata." << endl;
+  cout << "4. De aranjat o matrice dupa coloana adaugata." << endl;
   cout << "5. De generat o matrice conform variantei." << endl;
   cout << "\t|1 2 3|\n";
   cout << "\t|4 5 6|\n";
@@ -51,26 +51,27 @@ int main() {
 
     switch (key) {
       case '1':
-          searchMin(matrix, row, col);
-          searchMax(matrix, row, col);
+        searchMin(matrix, row, col);
+        searchMax(matrix, row, col);
         break;
       case '2':
-          cout << "Introduceti n1: ";
-          cin >> n1;
-          cout << "Introduceti n2: ";
-          cin >> n2;
-          interChange_lines(matrix, row, col, n1, n2);
+        cout << "Introduceti n1: ";
+        cin >> n1;
+        cout << "Introduceti n2: ";
+        cin >> n2;
+        interChange_lines(matrix, row, col, n1, n2);
         break;
       case '3':
-          cout << "Introduceti valoarea de comparare: ";
-          cin >> val;
-          addCol(matrix, row, col, val);
+        cout << "Introduceti valoarea de comparare: ";
+        cin >> val;
+        addCol(matrix, row, col, val);
         break;
       case '4':
-          sortMatrix(matrix, row, col);
+        sortMatrix(matrix, row, col);
+        matrixOutput(matrix, row, col);
         break;
       case '5':
-            generare(matrix, row, col);
+        generateMatrix(matrix, row, col);
         break;
     }
   } while (key != '0');
@@ -143,7 +144,7 @@ void searchMax(int matrix[NMAX][NMAX], int row, int col) {
       }
     }
   }
-  cout << "Elementul maxim = " << max << " pe pozitia: [ " << imax + 1 << ";" << jmax + 1 << " ]" << endl;
+  cout << "Elementul maxim = " << max << " pe pozitia: [ " << imax + 1 << ";" << jmax + 1 << " ] \n" << endl;
 }
 
 void interChange_lines(int matrix[NMAX][NMAX], int row, int col, int n1, int n2) {
@@ -173,36 +174,47 @@ void addCol(int matrix[NMAX][NMAX], int row, int &col, int val) {
   matrixOutput(matrix, row, col);
 }
 
-void sortMatrix(int matrix[NMAX][NMAX], int row, int col) {
-    for (int i = 0; i < row - 1; i++) {
-        if (matrix[i][col] > matrix[i+1][col]) {
-            interChange_lines(matrix, row, col, i, i+1);
+void sortMatrix(int matrix[NMAX][NMAX], int &row, int &col) {
+  int temp, k;
+  bool change;
+  k = 0;
+  do {
+    k++;
+    change = 0;
+    for (int i = 0; i < row - k; i++) {
+      if (matrix[i][col - 1] > matrix[i + 1][col - 1]) {
+        for (int j = 0; j < col; j++) {
+          temp = matrix[i][j];
+          matrix[i][j] = matrix[i + 1][j];
+          matrix[i + 1][j] = temp;
         }
+        change = 1;
+      }
+    }
+  }while (change);
+}
+
+  void generateMatrix(int matrix[NMAX][NMAX], int row, int col) {
+    int i, j;
+    bool dir = true;
+    int n = 1;
+
+    for (i = 0; i < row; i++) {
+      if (dir) {
+        for (j = 0; j < col; j++) {
+          matrix[i][j] = n;
+          n++;
+        }
+        dir = false;
+      } else {
+        n = n - 1;
+        for (j = col; j >= 0; j--) {
+          matrix[i][j] = n;
+          n++;
+        }
+        dir = true;
+      }
+
     }
     matrixOutput(matrix, row, col);
-}
-
-void generare(int matrix[NMAX][NMAX], int row, int col) {
-  int i, j;
-  bool dir = true;
-  int n = 1;
-
-  for (i = 0; i < row; i++) {
-    if (dir) {
-      for (j = 0; j < col; j++) {
-        matrix[i][j] = n;
-        n++;
-      }
-      dir = false;
-    } else {
-      n = n - 1;
-      for (j = col; j >= 0; j--) {
-        matrix[i][j] = n;
-        n++;
-      }
-      dir = true;
-    }
-
   }
-  matrixOutput(matrix, row, col);
-}
